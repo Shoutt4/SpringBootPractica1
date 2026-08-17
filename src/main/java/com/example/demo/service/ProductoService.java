@@ -1,0 +1,52 @@
+package com.example.demo.service;
+
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
+
+import com.example.demo.model.Producto;
+import com.example.demo.repository.ProductoRepository;
+import java.util.Optional;
+@Service
+public class ProductoService {
+    private final ProductoRepository productoRepository ; 
+
+    public ProductoService(ProductoRepository productoRepository){
+        this.productoRepository=productoRepository ; 
+    }
+
+    public List<Producto> getProductos (){
+        return this.productoRepository.findAll();
+    }
+
+    public Producto createProducto(Producto pr){
+        return this.productoRepository.save(pr) ;
+    }
+
+    public Optional <Producto> getProducotoById(@PathVariable long id){
+        return this.productoRepository.findById(id); 
+    }
+    public Producto updateProducto (Producto producto , long id ){
+        Optional <Producto> productoBuscado = productoRepository.findById(id) ; 
+
+        if(productoBuscado.isPresent()){
+            productoBuscado.get().setNombre(producto.getNombre());
+            productoBuscado.get().setPrecio(producto.getPrecio());
+               return  productoRepository.save(productoBuscado.get()) ; 
+        }else{
+            return null ; 
+        }
+     
+    } 
+
+    public boolean deleteProducto ( long id ){
+         if (productoRepository.existsById(id)) {
+            productoRepository.deleteById(id);
+            return true ; 
+         }else{
+            return false ; 
+         }
+
+    }
+}
