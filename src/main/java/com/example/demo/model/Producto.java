@@ -9,7 +9,6 @@ import jakarta.persistence.Id;
 @Entity
 public class Producto {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id ; 
     private String nombre ; 
     private double precio ;
@@ -23,7 +22,7 @@ public class Producto {
         this.nombre = nombre ;
         this.precio =precio ; 
     }
-    
+
     public long getId() {
         return id;
     }
