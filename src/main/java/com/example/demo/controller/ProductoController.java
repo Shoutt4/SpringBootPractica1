@@ -83,4 +83,30 @@ public class ProductoController {
     public ResponseEntity<List<Producto>> getProductosprecios(@RequestParam double precio) {
         return ResponseEntity.ok(productoService.obtenerProductosMayoresIguales(precio));
     }
+
+    @GetMapping("/producto/precio-filtro")
+    public ResponseEntity<List<Producto>> filtroPrecio(@RequestParam double precio) {
+        List<Producto> productosNew = this.productoService.filtrarPorPrecio(precio);
+        if (productosNew != null) {
+            return ResponseEntity.ok(productosNew);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/productos/nombre-precio")
+    public ResponseEntity<List<Producto>> filtrarPrecioNombre(@RequestParam String nombre,
+            @RequestParam double precio) {
+        List<Producto> nelList = this.productoService.filtrarPorNombrePrecio(nombre, precio);
+        if (nelList != null) {
+            return ResponseEntity.ok(nelList);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/productos/precio-mayor-menor")
+    public ResponseEntity<List<Producto>> getProductosMinMax(@RequestParam double min, @RequestParam double max) {
+        return ResponseEntity.ok(this.productoService.filterPredioMayorMenor(min, max));
+    }
 }

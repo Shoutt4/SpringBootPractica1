@@ -71,4 +71,16 @@ public class ProductoService {
     public List<Producto> obtenerProductosMayoresIguales(double precio) {
         return this.productoRepository.findByPrecioGreaterThanEqual(precio);
     }
+
+    public List<Producto> filtrarPorPrecio(double precio){
+        return this.productoRepository.buscarPorPrecio(precio) ; 
+    }
+
+    public List <Producto> filtrarPorNombrePrecio(String nombre , double precio ){
+        return this.productoRepository.filtarNombrePrecio(nombre, precio) ; 
+    }
+
+    public List <Producto> filterPredioMayorMenor(double min , double max ){
+        return this.productoRepository.filtroMayorMenorPrecios(min, max) ;
+    }
 }
