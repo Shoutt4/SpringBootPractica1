@@ -1,11 +1,14 @@
 package com.example.demo.model;
 
 import com.example.demo.model.Categoria;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import org.*;
 import org.hibernate.annotations.ManyToAny;
 
 import jakarta.annotation.Generated;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,7 +22,8 @@ public class Producto {
     private String nombre;
     private double precio;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JsonIgnore
     private Categoria categoria;
 
     public Producto() {

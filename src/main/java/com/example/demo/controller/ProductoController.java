@@ -1,5 +1,7 @@
 package com.example.demo.controller;
 
+import com.example.demo.dto.ProductoResponse;
+import com.example.demo.model.Categoria;
 import com.example.demo.model.Producto;
 
 import org.springframework.http.HttpStatus;
@@ -108,5 +110,10 @@ public class ProductoController {
     @GetMapping("/productos/precio-mayor-menor")
     public ResponseEntity<List<Producto>> getProductosMinMax(@RequestParam double min, @RequestParam double max) {
         return ResponseEntity.ok(this.productoService.filterPredioMayorMenor(min, max));
+    }
+
+    @GetMapping("/xd")
+    public ResponseEntity<List<ProductoResponse>> obtenerProductosConvertidos() {
+        return ResponseEntity.ok(this.productoService.getProductosConvertidos());
     }
 }

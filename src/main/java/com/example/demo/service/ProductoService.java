@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.example.demo.dto.ProductoResponse;
 import com.example.demo.model.Producto;
 import com.example.demo.repository.ProductoRepository;
 import java.util.Optional;
@@ -72,15 +73,31 @@ public class ProductoService {
         return this.productoRepository.findByPrecioGreaterThanEqual(precio);
     }
 
-    public List<Producto> filtrarPorPrecio(double precio){
-        return this.productoRepository.buscarPorPrecio(precio) ; 
+    public List<Producto> filtrarPorPrecio(double precio) {
+        return this.productoRepository.buscarPorPrecio(precio);
     }
 
-    public List <Producto> filtrarPorNombrePrecio(String nombre , double precio ){
-        return this.productoRepository.filtarNombrePrecio(nombre, precio) ; 
+    public List<Producto> filtrarPorNombrePrecio(String nombre, double precio) {
+        return this.productoRepository.filtarNombrePrecio(nombre, precio);
     }
 
-    public List <Producto> filterPredioMayorMenor(double min , double max ){
-        return this.productoRepository.filtroMayorMenorPrecios(min, max) ;
+    public List<Producto> filterPredioMayorMenor(double min, double max) {
+        return this.productoRepository.filtroMayorMenorPrecios(min, max);
+    }
+
+    public Optional<Producto> getCategoria(Long id) {
+        return this.productoRepository.findById(id);
+    }
+
+    public ProductoResponse convertirProducto(Producto pr) {
+        return new ProductoResponse(pr.getId(), pr.getNombre(), pr.getPrecio());
+    }
+
+    public List<ProductoResponse> getProductosConvertidos() {
+        List<Producto> pr = this.productoRepository.findAll();
+
+        return pr.stream()
+                .map(producto -> new ProductoResponse(producto.getId(), producto.getNombre(), producto.getPrecio()))
+                .toList();
     }
 }
