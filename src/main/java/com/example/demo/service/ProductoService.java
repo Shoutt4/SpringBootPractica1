@@ -17,10 +17,11 @@ import java.util.Optional;
 @Service
 public class ProductoService {
     private final ProductoRepository productoRepository;
-    private final CategoriaRepository categoriaRepository ; 
-    public ProductoService(ProductoRepository productoRepository , CategoriaRepository categoriaRepository) {
+    private final CategoriaRepository categoriaRepository;
+
+    public ProductoService(ProductoRepository productoRepository, CategoriaRepository categoriaRepository) {
         this.productoRepository = productoRepository;
-        this.categoriaRepository = categoriaRepository ;
+        this.categoriaRepository = categoriaRepository;
     }
 
     public List<Producto> getProductos() {
@@ -106,17 +107,17 @@ public class ProductoService {
                 .toList();
     }
 
-    public Producto  requestProducto(ProductoRequest productoRequest){
-        Optional <Categoria> cat = this.categoriaRepository.findById(productoRequest.getCategegoria()) ;
+    public ProductoResponse requestProducto(ProductoRequest productoRequest) {
+        Optional<Categoria> cat = this.categoriaRepository.findById(productoRequest.getCategegoria());
 
         if (!cat.isEmpty()) {
             Producto pr = new Producto();
             pr.setNombre(productoRequest.getNombre());
             pr.setPrecio(productoRequest.getPrecio());
             pr.setCategoria(cat.get());
-            return this.productoRepository.save(pr) ;  
-        }else{
-            return null ; 
+            return convertirProducto(this.productoRepository.save(pr));
+        } else {
+            return null;
         }
     }
 }

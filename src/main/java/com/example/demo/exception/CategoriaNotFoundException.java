@@ -1,0 +1,6 @@
+package com.example.demo.exception;
+
+public class CategoriaNotFoundException extends RuntimeException {
+
+    
+}
