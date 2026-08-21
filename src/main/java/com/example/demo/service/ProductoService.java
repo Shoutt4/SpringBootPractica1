@@ -6,16 +6,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.example.demo.dto.ProductoResponse;
+import com.example.demo.dto.ProductoRequest;
+import com.example.demo.model.Categoria;
 import com.example.demo.model.Producto;
 import com.example.demo.repository.ProductoRepository;
+import com.example.demo.repository.CategoriaRepository;
+
 import java.util.Optional;
 
 @Service
 public class ProductoService {
     private final ProductoRepository productoRepository;
-
-    public ProductoService(ProductoRepository productoRepository) {
+    private final CategoriaRepository categoriaRepository ; 
+    public ProductoService(ProductoRepository productoRepository , CategoriaRepository categoriaRepository) {
         this.productoRepository = productoRepository;
+        this.categoriaRepository = categoriaRepository ;
     }
 
     public List<Producto> getProductos() {
@@ -99,5 +104,19 @@ public class ProductoService {
         return pr.stream()
                 .map(producto -> new ProductoResponse(producto.getId(), producto.getNombre(), producto.getPrecio()))
                 .toList();
+    }
+
+    public Producto  requestProducto(ProductoRequest productoRequest){
+        Optional <Categoria> cat = this.categoriaRepository.findById(productoRequest.getCategegoria()) ;
+
+        if (!cat.isEmpty()) {
+            Producto pr = new Producto();
+            pr.setNombre(productoRequest.getNombre());
+            pr.setPrecio(productoRequest.getPrecio());
+            pr.setCategoria(cat.get());
+            return this.productoRepository.save(pr) ;  
+        }else{
+            return null ; 
+        }
     }
 }

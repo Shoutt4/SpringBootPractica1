@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import com.example.demo.dto.ProductoResponse;
 import com.example.demo.model.Categoria;
 import com.example.demo.model.Producto;
+import com.example.demo.dto.ProductoRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.service.ProductoService;
 import java.util.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 @RestController
 public class ProductoController {
@@ -116,4 +120,12 @@ public class ProductoController {
     public ResponseEntity<List<ProductoResponse>> obtenerProductosConvertidos() {
         return ResponseEntity.ok(this.productoService.getProductosConvertidos());
     }
+
+    @PostMapping("path")
+    public String postMethodName(@RequestBody String entity) {
+        //TODO: process POST request
+        
+        return entity;
+    }
+    
 }
