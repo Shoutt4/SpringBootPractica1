@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
-
+import com.example.demo.exception.CategoriaNotFoundException;
 import com.example.demo.dto.ProductoResponse;
 import com.example.demo.dto.ProductoRequest;
 import com.example.demo.model.Categoria;
@@ -108,16 +108,15 @@ public class ProductoService {
     }
 
     public ProductoResponse requestProducto(ProductoRequest productoRequest) {
-        Optional<Categoria> cat = this.categoriaRepository.findById(productoRequest.getCategegoria());
 
-        if (!cat.isEmpty()) {
-            Producto pr = new Producto();
-            pr.setNombre(productoRequest.getNombre());
-            pr.setPrecio(productoRequest.getPrecio());
-            pr.setCategoria(cat.get());
-            return convertirProducto(this.productoRepository.save(pr));
-        } else {
-            return null;
-        }
+        Categoria categoria = this.categoriaRepository.findById(productoRequest.getCategegoria())
+                .orElseThrow(() -> new CategoriaNotFoundException("Error categoria no encontrada lo sentimos "));
+
+        Producto producto = new Producto();
+        producto.setNombre(productoRequest.getNombre());
+        producto.setPrecio(productoRequest.getPrecio());
+        producto.setCategoria(categoria);
+
+        return convertirProducto(this.productoRepository.save(producto));
     }
 }

@@ -2,15 +2,12 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.ProductoResponse;
 import com.example.demo.dto.ProductoRequest;
-
-import com.example.demo.model.Categoria;
 import com.example.demo.model.Producto;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import com.example.demo.service.ProductoService;
+import jakarta.validation.Valid;
 import java.util.*;
 
 @RestController
@@ -120,12 +117,7 @@ public class ProductoController {
     }
 
     @PostMapping("/request")
-    public ResponseEntity<ProductoResponse> createRequest(@RequestBody ProductoRequest productoRequest) {
-        ProductoResponse pr = this.productoService.requestProducto(productoRequest);
-        if (pr != null) {
-            return ResponseEntity.ok(pr);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<ProductoResponse> createRequest(@Valid @RequestBody ProductoRequest productoRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.productoService.requestProducto(productoRequest));
     }
 }
